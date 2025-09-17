@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "tech-digest-bot"
+version = "0.1.0"
+description = "Telegram bot that collects and delivers tech articles by your favorite topics."
+authors = ["Lvov Alexandr <strangeisdoctor@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+asyncio = "^4.0.0"
+aiogram = "^3.22.0"
+pydantic-settings = "^2.10.1"
+logging = "^0.4.9.6"
+pathlib = "^1.0.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
