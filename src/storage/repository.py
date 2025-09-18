@@ -8,6 +8,14 @@ class Repository(ABC):
         pass
 
     @abstractmethod
+    def get_user_categories(self, user_id: int) -> List[str]:
+        pass
+
+    @abstractmethod
+    def get_category_users(self, category: str) -> List[int]:
+        pass
+
+    @abstractmethod
     def remove_user(self, category: str, user_id: int) -> None:
         pass
 

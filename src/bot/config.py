@@ -16,6 +16,7 @@ class Settings(BaseSettings):
     bot_token_file: SecretStr
     dump_file: str = "/app/dump.json"
     storage_type: str = "local"
+    logging_level: str = "info"
 
     model_config = SettingsConfigDict(
         env_file=".env",
@@ -41,12 +42,22 @@ class Settings(BaseSettings):
         else:
             raise ValueError("storage type is not supported")
 
+    @property
+    def log_level(self) -> int:
+        levels = {"debug": logging.DEBUG, "info": logging.INFO}
+        level = self.logging_level.lower().strip()
+
+        if level not in levels:
+            raise ValueError(f"logging level {self.logging_level} is not supported")
+
+        return levels[level]
+
 
 settings = Settings()
 bot = Bot(token=settings.bot_token) 
 
 logging.basicConfig(
-   level=logging.INFO,
+   level=settings.log_level,
    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
    handlers=[
        logging.StreamHandler(),
