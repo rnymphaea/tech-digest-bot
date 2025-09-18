@@ -12,6 +12,8 @@ from src.storage.local.storage import LocalStorage
 
 from src.services.subscription_service import SubscriptionService
 
+from src.parsers.habr_rss import HabrRSSParser
+
 class Settings(BaseSettings):
     bot_token_file: SecretStr
     dump_file: str = "/app/dump.json"
@@ -67,3 +69,5 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 sub_service = SubscriptionService(settings.repo)
+
+parser = HabrRSSParser()

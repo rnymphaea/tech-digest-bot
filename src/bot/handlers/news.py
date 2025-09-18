@@ -4,7 +4,7 @@ from aiogram.types import Message, CallbackQuery
 from aiogram.fsm.context import FSMContext
 
 from src.bot.states import UserState
-from src.bot.config import sub_service
+from src.bot.config import sub_service, parser
 from src.bot.keyboards.news_keyboards import stop_keyboard, confirmation_keyboard
 
 router = Router()
@@ -102,3 +102,32 @@ async def process_confirmation(callback: CallbackQuery, state: FSMContext):
 
     await callback.message.edit_reply_markup(reply_markup=None)
 
+
+@router.message(UserState.subscribed)
+async def get_articles(message: Message, state: FSMContext):
+    user_id = message.from_user.id
+    categories = sub_service.get_user_categories(user_id)
+
+    if not categories:
+        await message.answer("Вы пока не подписаны ни на одну категорию. Используйте /start, чтобы выбрать категории.")
+        return
+
+    articles_to_send = []
+
+    for category in categories:
+        articles = await parser.fetch_latest(category, count=3)
+        for article in articles:
+            articles_to_send.append(article)
+
+    if not articles_to_send:
+        await message.answer("По вашим категориям пока нет новых статей.")
+        return
+
+    for article in articles_to_send:
+        categories_str = ", ".join(article.get("categories", []))
+        text = f"📌 <b>{article['title']}</b>\n\n" \
+               f"📂 Категории: <i>{categories_str}</i>\n\n" \
+               f"⏱️ Дата публикации: {article['published']}\n\n" \
+               f"Ссылка: {article['url']}\n\n"
+
+        await message.answer(text, parse_mode="HTML")
