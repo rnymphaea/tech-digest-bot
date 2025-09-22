@@ -33,5 +33,8 @@ class SubscriptionService:
     def get_category_users(self, category: str) -> List[int]:
         return self.repo.get_category_users(category)
 
+    def get_all_categories(self) -> List[str]:
+        return self.repo.get_all_categories()
+
     def save(self) -> None:
         self.repo.save()

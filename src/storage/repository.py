@@ -20,6 +20,10 @@ class Repository(ABC):
         pass
 
     @abstractmethod
+    def get_all_categories(self) -> List[str]:
+        pass
+
+    @abstractmethod
     def save(self) -> None:
         pass
 

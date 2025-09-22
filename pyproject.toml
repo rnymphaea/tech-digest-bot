@@ -13,6 +13,7 @@ pydantic-settings = "^2.10.1"
 logging = "^0.4.9.6"
 pathlib = "^1.0.1"
 feedparser = "^6.0.12"
+apscheduler = "^3.11.0"
 
 
 [build-system]

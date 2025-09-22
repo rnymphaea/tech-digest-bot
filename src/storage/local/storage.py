@@ -73,6 +73,13 @@ class LocalStorage(Repository):
         self.logger.debug(f"{func_name}: {self._category_to_users}")
         self.logger.debug(f"{func_name}: {self._user_to_categories}")
 
+    def get_all_categories(self) -> List[str]:
+        func_name = "get_all_categories"
+
+        categories = list(self._category_to_users.keys())
+
+        self.logger.debug(f"{func_name}: {categories}")
+        return categories
 
     def save(self) -> None:
         with self._lock:
