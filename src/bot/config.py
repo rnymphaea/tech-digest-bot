@@ -19,6 +19,7 @@ class Settings(BaseSettings):
     dump_file: str = "/app/dump.json"
     storage_type: str = "local"
     logging_level: str = "info"
+    timeout_minutes: int = 1
 
     model_config = SettingsConfigDict(
         env_file=".env",

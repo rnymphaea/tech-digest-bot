@@ -1,6 +1,6 @@
 import logging
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
-from src.bot.config import bot, sub_service, parser
+from src.bot.config import bot, sub_service, parser, settings
 
 sent_articles = set()
 
@@ -10,7 +10,7 @@ async def send_articles():
 
     for category in categories:
         try:
-            articles = await parser.fetch_latest(category, count=5)
+            articles = await parser.fetch_latest(category, count=3)
         except Exception as e:
             logger.error(f"Ошибка при парсинге категории {category}: {e}")
             continue
@@ -45,5 +45,5 @@ async def send_articles():
 
 def setup_scheduler():
     scheduler = AsyncIOScheduler(timezone="Europe/Moscow")
-    scheduler.add_job(send_articles, "interval", minutes=1)
+    scheduler.add_job(send_articles, "interval", minutes=settings.timeout_minutes)
     scheduler.start()
